@@ -73,10 +73,12 @@
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
             var html = document.querySelector('html');
-            var sidebar = 'hidden';
+            var sidebar = null;
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
             }
             html.classList.remove('sidebar-visible');
             html.classList.add("sidebar-" + sidebar);
@@ -89,11 +91,33 @@
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
                                 <div id="menu-bar-hover-placeholder"></div>
-                <div id="menu-bar" class="menu-bar sticky bordered">
+                <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
                             <i class="fa fa-bars"></i>
@@ -155,22 +179,22 @@
 <p><a href="https://en.wikiquote.org/wiki/Antoine_de_Saint_Exup%C3%A9ry">Antoine de Saint-Exupéry</a></p>
 </blockquote>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="Ütemezés"><a class="header" href="#Ütemezés">Ütemezés</a></h1>
-<p>Az órák csütörtökönként a BA.F.07-ben vannak (távoktatásban, MS Teams-en), neptun szerint 08:00-10:35 között előadás és 10:45-11:30 között gyakorlat. (Ezek aránya valamint közte a szünet az aktuális előadásanyag és az igények szerint módosulhat). A „gyakorlat” nem labor, hanem sokkal inkább konzultáció!</p>
+<p>Az órák csütörtökönként a BA.F.06-ben vannak (távoktatásban, MS Teams-en), neptun szerint 08:00-10:35 között előadás és 10:45-11:30 között gyakorlat. (Ezek aránya valamint közte a szünet az aktuális előadásanyag és az igények szerint módosulhat). A „gyakorlat” nem labor, hanem sokkal inkább konzultáció!</p>
 <div class="table-wrapper"><table><thead><tr><th style="text-align: right">hét</th><th style="text-align: center">dátum</th><th style="text-align: center">előadás</th><th style="text-align: center">gyakorlat</th></tr></thead><tbody>
-<tr><td style="text-align: right">1.</td><td style="text-align: center">09. 08.</td><td style="text-align: center">Bevezető, áttekintés</td><td style="text-align: center">feladat és a munkafolyamat átfogó ismertetése, avalonia tutorial</td></tr>
-<tr><td style="text-align: right">2.</td><td style="text-align: center">09. 15.</td><td style="text-align: center">Napi munka, verziókezelők</td><td style="text-align: center">git, GitHub, IDE ismertetés, warmup feladat ismertetése</td></tr>
-<tr><td style="text-align: right">3.</td><td style="text-align: center">09. 22.</td><td style="text-align: center">Software Architecture I.</td><td style="text-align: center">csapatsorsolás, Sprint Planning, Task Definition Workshop</td></tr>
-<tr><td style="text-align: right">4.</td><td style="text-align: center">09. 29.</td><td style="text-align: center">Software Architecture II.</td><td style="text-align: center">konzultáció (design dokumentumok bemutatása)</td></tr>
-<tr><td style="text-align: right">5.</td><td style="text-align: center">10. 06.</td><td style="text-align: center">Agile, SCRUM, Kanban</td><td style="text-align: center">konzultáció</td></tr>
-<tr><td style="text-align: right">6.</td><td style="text-align: center">10. 13.</td><td style="text-align: center">Verification &amp; validation</td><td style="text-align: center">konzultáció</td></tr>
-<tr><td style="text-align: right">7.</td><td style="text-align: center">10. 20.</td><td style="text-align: center">Continuous Integration</td><td style="text-align: center">nálunk hogy működik (handout, AutomatedCar), konzultáció</td></tr>
-<tr><td style="text-align: right">8.</td><td style="text-align: center"><strong>10. 27.</strong></td><td style="text-align: center"><strong>1. demo</strong></td><td style="text-align: center">retrospektív, Sprint Planning, Task Definition Workshop</td></tr>
-<tr><td style="text-align: right">9.</td><td style="text-align: center">11. 03.</td><td style="text-align: center">Review culture</td><td style="text-align: center">konzultáció</td></tr>
-<tr><td style="text-align: right">10.</td><td style="text-align: center">11. 10.</td><td style="text-align: center">Legacy code</td><td style="text-align: center">konzultáció</td></tr>
-<tr><td style="text-align: right">11.</td><td style="text-align: center">11. 17.</td><td style="text-align: center">ASPICE in nutshell</td><td style="text-align: center">konzultáció</td></tr>
-<tr><td style="text-align: right">13.</td><td style="text-align: center">11. 24.</td><td style="text-align: center">Guest presentation</td><td style="text-align: center">konzultáció</td></tr>
-<tr><td style="text-align: right">12.</td><td style="text-align: center"><strong>12. 01.</strong></td><td style="text-align: center">Összefoglalás, <strong>2. demo</strong></td><td style="text-align: center">retrospektív, tárgy feedback</td></tr>
-<tr><td style="text-align: right">14.</td><td style="text-align: center"><strong>12. 08.</strong></td><td style="text-align: center"><strong>Zárthelyi dolgozat</strong></td><td style="text-align: center"></td></tr>
+<tr><td style="text-align: right">1.</td><td style="text-align: center">03. 02.</td><td style="text-align: center">Bevezető, áttekintés</td><td style="text-align: center">feladat és a munkafolyamat átfogó ismertetése, avalonia tutorial</td></tr>
+<tr><td style="text-align: right">2.</td><td style="text-align: center">03. 09.</td><td style="text-align: center">Napi munka, verziókezelés</td><td style="text-align: center">git, GitHub, IDE ismertetés, warmup feladat ismertetése</td></tr>
+<tr><td style="text-align: right">3.</td><td style="text-align: center">03. 16.</td><td style="text-align: center">Software Architecture I.</td><td style="text-align: center">csapatsorsolás, Sprint Planning, Design előkészítése</td></tr>
+<tr><td style="text-align: right">4.</td><td style="text-align: center">03. 23.</td><td style="text-align: center">Software Architecture II.</td><td style="text-align: center">Work Breakdown Structure (WBS) és design bemutatása</td></tr>
+<tr><td style="text-align: right">5.</td><td style="text-align: center">03. 30.</td><td style="text-align: center">Agile, SCRUM, Kanban</td><td style="text-align: center">konzultáció</td></tr>
+<tr><td style="text-align: right">6.</td><td style="text-align: center">04. 06.</td><td style="text-align: center">Rektori szünet</td><td style="text-align: center">konzultáció</td></tr>
+<tr><td style="text-align: right">7.</td><td style="text-align: center">04. 13.</td><td style="text-align: center">Verification &amp; validation</td><td style="text-align: center">konzultáció</td></tr>
+<tr><td style="text-align: right">8.</td><td style="text-align: center"><strong>04. 20.</strong></td><td style="text-align: center"><strong>1. demo</strong></td><td style="text-align: center">retrospektív, Sprint Planning, Design előkészítése</td></tr>
+<tr><td style="text-align: right">9.</td><td style="text-align: center">04. 27.</td><td style="text-align: center">Continuous Integration</td><td style="text-align: center">Work Breakdown Structure (WBS) és design bemutatása</td></tr>
+<tr><td style="text-align: right">10.</td><td style="text-align: center">05. 04.</td><td style="text-align: center">Review culture</td><td style="text-align: center">konzultáció</td></tr>
+<tr><td style="text-align: right">11.</td><td style="text-align: center">05. 11.</td><td style="text-align: center">Legacy code</td><td style="text-align: center">konzultáció</td></tr>
+<tr><td style="text-align: right">13.</td><td style="text-align: center">05. 18.</td><td style="text-align: center">ASPICE in nutshell v. Guest presentation</td><td style="text-align: center">konzultáció</td></tr>
+<tr><td style="text-align: right">12.</td><td style="text-align: center"><strong>05. 25.</strong></td><td style="text-align: center">Összefoglalás, <strong>2. demo</strong></td><td style="text-align: center">retrospektív, tárgy feedback</td></tr>
+<tr><td style="text-align: right">14.</td><td style="text-align: center"><strong>06. 01.</strong></td><td style="text-align: center"><strong>Zárthelyi dolgozat</strong></td><td style="text-align: center"></td></tr>
 </tbody></table>
 </div>
 <h2 id="házi-feladatok"><a class="header" href="#házi-feladatok">Házi feladatok</a></h2>
@@ -185,12 +209,12 @@
     gantt
     dateFormat  YYYY-MM-DD
     axisFormat  %m-%d
-    title 2022/23 tanév I.félév
-    Bemutatkozás :milestone, 2022-09-08, 1d
+    title 2022/23 tanév II.félév
+    Bemutatkozás :milestone, 2023-03-02, 1d
     section Avalonia
-        Avalonia-tutorial: active, avalonia-tutorial, 2022-09-08, 1w
+        Avalonia-tutorial: active, avalonia-tutorial, 2023-03-02, 1w
     section Warm-up
-        Warm-up :active, warmup, 2022-09-15, 1w
+        Warm-up :active, warmup, 2023-03-09, 1w
     Csapat sorsolás :milestone, after warmup, 1d
     section Sprint 1
         Sprint 1 :active, sprint1, after warmup, 5w
@@ -198,7 +222,7 @@
     section Sprint 2
         Sprint 2 :active, sprint2, after sprint1, 5w
     Demo 2 :milestone, after sprint2, 1d
-    Zárthelyi :milestone, 2022-12-08, 1d
+    Zárthelyi :milestone, 2023-06-01, 1d
     click sprint1 href "./sprint_1.html"
     click sprint2 href "./sprint_2.html"
 </div>
